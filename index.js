@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config(); 
 
 const app = express();
-const client = new Redis(process.env.REDIS_URL); // Initialize ioredis properly
+const client = new Redis("redis://default:Vmr9etK7QQgIFkThwm3qxzgQSACXAgNl@redis-11972.c84.us-east-1-2.ec2.redns.redis-cloud.com:11972"); // Initialize ioredis properly
 
 app.get("/testroute", (req, res) => {
   res.send("hello world");
@@ -80,7 +80,7 @@ app.get("/", async (req, res) => {
 
     // Set the cache with expiration
     await client.set("todos", data);
-    await client.expire("todos", 100); // Expires in 100 seconds
+    await client.expire("todos", 10); // Expires in 100 seconds
 
     console.log("Setting new data in cache");
     return res.send(data); // Return the new data
