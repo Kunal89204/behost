@@ -1,8 +1,11 @@
 const express = require("express");
 const Redis = require("ioredis");
+const dotenv = require("dotenv");
+
+dotenv.config(); 
 
 const app = express();
-const client = new Redis(); // Initialize ioredis properly
+const client = new Redis(process.env.REDIS_URL); // Initialize ioredis properly
 
 app.get("/testroute", (req, res) => {
   res.send("hello world");
