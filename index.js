@@ -1,12 +1,15 @@
-const express = require("express")
+const express = require("express");
+const Redis = require("ioredis");
+
 const app = express();
+const client = new Redis(); // Initialize ioredis properly
 
 app.get("/testroute", (req, res) => {
-    res.send("hello world")
-})
+  res.send("hello world");
+});
 
-app.get('/', (req, res) => {
-    res.send(`<!DOCTYPE html>
+app.get("/", async (req, res) => {
+  const data = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -61,11 +64,29 @@ app.get('/', (req, res) => {
         <p>&copy; 2024 My Website. All rights reserved.</p>
     </footer>
 </body>
-</html>
-`)
-})
+</html>`;
 
+  try {
+    // Check if the value is cached
+    const cachedValue = await client.get("todos");
+
+    if (cachedValue) {
+      console.log("Returning cached data");
+      return res.send(cachedValue); // Return cached HTML as plain HTML
+    }
+
+    // Set the cache with expiration
+    await client.set("todos", data);
+    await client.expire("todos", 100); // Expires in 100 seconds
+
+    console.log("Setting new data in cache");
+    return res.send(data); // Return the new data
+  } catch (error) {
+    console.error("Redis error:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
 
 app.listen(3000, () => {
-    console.log("server is running")
-})
+  console.log("Server is running on port 3000");
+});
