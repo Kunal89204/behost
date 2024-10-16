@@ -12,7 +12,7 @@ app.get("/testroute", (req, res) => {
 });
 
 
-app.get('/', (req, res) => {
+app.get('/health', (req, res) => {
   res.json({message:"api workging"})
 })
 app.get("/", async (req, res) => {
