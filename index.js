@@ -11,6 +11,10 @@ app.get("/testroute", (req, res) => {
   res.send("hello world");
 });
 
+
+app.get('/', (req, res) => {
+  res.json({message:"api workging"})
+})
 app.get("/", async (req, res) => {
   const data = `<!DOCTYPE html>
 <html lang="en">
