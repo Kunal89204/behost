@@ -56,7 +56,7 @@ app.get("/", async (req, res) => {
 </head>
 <body>
     <header>
-        <h1>Welcome to My Websitesssss${process.env.VALUE}</h1>
+        <h1>Welcome to My Websitesssss${process.env.NEXT_PUBLIC_VALUE}</h1>
     </header>
     <main>
         <h2>Hello!</h2>
